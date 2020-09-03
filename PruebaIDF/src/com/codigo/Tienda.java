@@ -1,6 +1,7 @@
 package com.codigo;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 public class Tienda {
 
@@ -9,13 +10,53 @@ public class Tienda {
     //Numero de niños en espera cuando la tienda abre
     private  int intitialKids;
     // Cantidad de dulces solicitada por cada niño
-    static ArrayList<Integer> pedidoKids;
+    private ArrayList<Integer> pedidoKids;
 
-    public Tienda(int maxKids, int intitialKids) {
+
+    //Contructor
+    public Tienda(int maxKids, int intitialKids, ArrayList<Integer> pedidoKids) {
         this.maxKids = maxKids;
         this.intitialKids = intitialKids;
-        pedidoKids = new ArrayList<Integer>();
+        this.pedidoKids = pedidoKids;
     }
+
+    //--------------------------------
+    // Metodos
+    //--------------------------------
+
+
+    /**
+     *
+     */
+    public void mejorNinoParaMaximizar(){
+
+        int pedidoMejorNino = -1;
+        PriorityQueue<Integer> ninosPeticiones = new PriorityQueue<Integer>();
+        for(Integer i : pedidoKids){
+            ninosPeticiones.add(-i);
+        }
+
+         pedidoMejorNino = ninosPeticiones.poll();
+        int siguienteCantidad = Integer.MAX_VALUE;
+
+        int IDF = pedidoMejorNino^2;
+
+        for(int i = 2; i <= maxKids && siguienteCantidad > 1; i++){
+
+            if(i == 2)
+                siguienteCantidad = (int) Math.floor(pedidoMejorNino/2);
+            else
+                siguienteCantidad = (int) Math.floor(siguienteCantidad/2);
+
+            IDF += siguienteCantidad^2;
+
+           }
+
+
+    }
+
+
+
 
     public int getIntitialKids() {
         return intitialKids;
