@@ -8,7 +8,7 @@ public class Tienda {
     //Numero maximo de niños que atendera la tienda
     private int maxKids;
     //Numero de niños en espera cuando la tienda abre
-    private  int intitialKids;
+    private int intitialKids;
     // Cantidad de dulces solicitada por cada niño
     private ArrayList<Integer> pedidoKids;
 
@@ -28,34 +28,24 @@ public class Tienda {
     /**
      *
      */
-    public void mejorNinoParaMaximizar(){
+    public int getMaximoIDF() {
 
         int pedidoMejorNino = -1;
         PriorityQueue<Integer> ninosPeticiones = new PriorityQueue<Integer>();
-        for(Integer i : pedidoKids){
+        for (Integer i : pedidoKids) {
             ninosPeticiones.add(-i);
         }
 
-         pedidoMejorNino = ninosPeticiones.poll();
-        int siguienteCantidad = Integer.MAX_VALUE;
+        int IDF = 0;
+        for (int i = 1; i <= maxKids; i++) {
 
-        int IDF = pedidoMejorNino^2;
-
-        for(int i = 2; i <= maxKids && siguienteCantidad > 1; i++){
-
-            if(i == 2)
-                siguienteCantidad = (int) Math.floor(pedidoMejorNino/2);
-            else
-                siguienteCantidad = (int) Math.floor(siguienteCantidad/2);
-
-            IDF += siguienteCantidad^2;
-
-           }
-
-
+            pedidoMejorNino = ninosPeticiones.poll();
+            if (pedidoMejorNino > 1)
+                ninosPeticiones.add((int) Math.floor(pedidoMejorNino / 2));
+            IDF += Math.pow(pedidoMejorNino, 2);
+        }
+        return IDF;
     }
-
-
 
 
     public int getIntitialKids() {
@@ -73,8 +63,6 @@ public class Tienda {
     public void setPedidoKids(ArrayList<Integer> pedidoKids) {
         this.pedidoKids = pedidoKids;
     }
-
-
 
 
     public int getMaxKids() {
