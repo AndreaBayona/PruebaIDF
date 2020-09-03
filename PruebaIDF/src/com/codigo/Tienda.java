@@ -30,7 +30,7 @@ public class Tienda {
      */
     public int getMaximoIDF() {
 
-        int pedidoMejorNino = -1;
+        Integer pedidoMejorNino = -1;
         PriorityQueue<Integer> ninosPeticiones = new PriorityQueue<Integer>();
         for (Integer i : pedidoKids) {
             ninosPeticiones.add(-i);
@@ -40,6 +40,8 @@ public class Tienda {
         for (int i = 1; i <= maxKids; i++) {
 
             pedidoMejorNino = ninosPeticiones.poll();
+            if(pedidoMejorNino == null)
+                break;
             if (pedidoMejorNino > 1)
                 ninosPeticiones.add((int) Math.floor(pedidoMejorNino / 2));
             IDF += Math.pow(pedidoMejorNino, 2);
